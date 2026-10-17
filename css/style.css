@@ -185,3 +185,10 @@ h1{font-size:clamp(32px,9.5vw,44px)}h2{font-size:clamp(24px,7vw,32px)}
 .offer-summary{background:#eef3ef;border-radius:12px;padding:12px 14px;margin:6px 0 16px;line-height:1.5}
 .chat-form .btn{flex-shrink:0;white-space:nowrap}
 @media(max-width:650px){.chat-form{flex-wrap:wrap}.chat-form input{flex:1 1 100%;order:3}.modal-box{padding:18px;border-radius:20px}}
+
+/* ===== Message actions ===== */
+.msg .bubble{cursor:pointer}.bubble.deleted{font-style:italic;opacity:.7;background:#eef1ee!important;color:#5d6b63!important;border:1px dashed var(--line)!important}
+.msg-actions{display:none;gap:6px;flex-wrap:wrap;margin-top:6px}.msg.open .msg-actions{display:flex}.msg.me .msg-actions{justify-content:flex-end}
+.msg-actions button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer;color:#14231b}.msg-actions button:hover{background:#eef3ef}
+.edit-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff8e1;border-top:1px solid #f0dc9a;padding:8px 14px;font-size:14px}.edit-bar button{border:0;background:transparent;color:var(--brand);font:inherit;font-weight:700;cursor:pointer}
+.chat-del{margin-left:auto;white-space:nowrap}
