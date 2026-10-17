@@ -172,3 +172,5 @@ h1{font-size:clamp(32px,9.5vw,44px)}h2{font-size:clamp(24px,7vw,32px)}
 .story-card p{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;margin:0 0 4px;line-height:1.5}
 .story-card p.muted{margin-top:auto;padding-top:10px;-webkit-line-clamp:1}
 @media(max-width:650px){.story-card .story-img{height:180px}}
+
+.chat-ava{overflow:hidden}.chat-ava img{width:100%;height:100%;object-fit:cover;display:block}.chat-ava.sm{width:36px;height:36px;font-size:15px}
