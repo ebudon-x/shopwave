@@ -192,3 +192,5 @@ h1{font-size:clamp(32px,9.5vw,44px)}h2{font-size:clamp(24px,7vw,32px)}
 .msg-actions button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer;color:#14231b}.msg-actions button:hover{background:#eef3ef}
 .edit-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff8e1;border-top:1px solid #f0dc9a;padding:8px 14px;font-size:14px}.edit-bar button{border:0;background:transparent;color:var(--brand);font:inherit;font-weight:700;cursor:pointer}
 .chat-del{margin-left:auto;white-space:nowrap}
+
+.live-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:18px 0 22px}
