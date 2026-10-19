@@ -194,3 +194,9 @@ h1{font-size:clamp(32px,9.5vw,44px)}h2{font-size:clamp(24px,7vw,32px)}
 .chat-del{margin-left:auto;white-space:nowrap}
 
 .live-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:18px 0 22px}
+
+/* ===== In-site live video ===== */
+.live-stage{flex-direction:column;align-items:stretch;justify-content:flex-start;gap:12px;padding:12px;display:flex}
+.live-stage video{width:100%;max-height:62vh;background:#000;border-radius:16px;display:block;object-fit:contain}
+.live-host-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.live-note{font-size:13px;margin:0;line-height:1.4}
+.mode-pick{display:grid;gap:10px}.mode-opt{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;background:#fff}.mode-opt input{margin-top:5px}.mode-opt small{color:#64746a;line-height:1.4}.mode-opt:has(input:checked){border-color:var(--brand);background:#f3f8f4}
