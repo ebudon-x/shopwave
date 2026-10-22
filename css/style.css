@@ -238,6 +238,13 @@ h1{font-size:clamp(32px,9.5vw,44px)}h2{font-size:clamp(24px,7vw,32px)}
 @media(max-width:900px){.checkout-grid{grid-template-columns:1fr}.co-summary{position:static}}
 @media(max-width:650px){.oc-grid{grid-template-columns:1fr}.order-card{padding:16px;border-radius:18px}.tl-label{font-size:11px}.dl-quick input,.dl-quick select{flex:1 1 90px;width:auto}}
 
-/* ===== Section 2: payouts ===== */
-.payout-state{display:inline-block;padding:8px 14px;border-radius:999px;font-weight:700;font-size:14px;margin-bottom:12px}.payout-state.on{background:#e3f4e6;color:#14532d}.payout-state.off{background:#fff4d6;color:#7a5b00}
-.payout-note{margin:8px 0 0;font-size:13px;line-height:1.45;background:#eef3ef;border-radius:10px;padding:8px 12px;color:#2f4637}
+/* ===== Section 3: ratings & reviews ===== */
+.stars{display:flex;align-items:center;gap:2px;font-size:16px;line-height:1;margin:2px 0 6px}.stars span{color:#d4dbd6}.stars span.on{color:#e0b44c}.stars span.half{background:linear-gradient(90deg,#e0b44c 50%,#d4dbd6 50%);-webkit-background-clip:text;background-clip:text;color:transparent}.stars .muted{font-size:13px;margin-left:6px}.stars.none{font-size:13px;color:#8a968f}
+.badge-out{background:#fde8e8;color:#8a1c1c}
+.reviews-box{margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}.reviews-box h2{margin:0 0 14px}.reviews-box h3{margin:22px 0 8px}
+.rev-sum{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 20px;margin-bottom:14px;width:fit-content}.rev-sum>b{font-size:40px;color:var(--brand);line-height:1}.rev-sum .stars{font-size:20px;margin:0 0 4px}
+.review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}.rev-top{display:flex;gap:12px;align-items:flex-start}.rev-top>div{flex:1;min-width:0}.rev-top .stars{margin:4px 0 0}.rev-date{font-size:12px;white-space:nowrap}.review p{margin:10px 0 0;line-height:1.55;overflow-wrap:anywhere}
+.v-tag{background:#e3f4e6;color:#14532d;border-radius:999px;font-size:11px;font-weight:800;padding:2px 8px;margin-left:6px;white-space:nowrap}
+.link-btn{border:0;background:transparent;color:#8a1c1c;font:inherit;font-size:13px;cursor:pointer;padding:8px 0 0;text-decoration:underline}
+.star-pick{display:flex;gap:4px;margin:6px 0 12px}.star-pick button{border:0;background:transparent;font-size:34px;line-height:1;color:#d4dbd6;cursor:pointer;padding:2px 4px}.star-pick button.on{color:#e0b44c}.star-pick button:hover{transform:scale(1.12)}
+#revForm textarea{width:100%}
