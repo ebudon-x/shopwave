@@ -39,10 +39,20 @@ service cloud.firestore {
       allow create: if signedIn() && request.resource.data.authorId == request.auth.uid;
       allow update,delete: if admin() || (signedIn() && resource.data.authorId == request.auth.uid);
     }
-    match /reviews/{id}{
+    match /reviews/{rid}{
       allow read: if resource.data.status == 'published' || admin() || (signedIn() && resource.data.customerId == request.auth.uid);
-      allow create: if signedIn() && request.resource.data.customerId == request.auth.uid;
-      allow update,delete: if admin() || (signedIn() && resource.data.customerId == request.auth.uid);
+      allow create: if signedIn() && request.resource.data.customerId == request.auth.uid
+        && rid == request.auth.uid + '_' + request.resource.data.targetType + '_' + request.resource.data.targetId
+        && request.resource.data.targetType in ['product','business']
+        && request.resource.data.rating is int && request.resource.data.rating >= 1 && request.resource.data.rating <= 5
+        && request.resource.data.text is string && request.resource.data.text.size() <= 600
+        && request.resource.data.status == 'published';
+      allow update: if admin() || (signedIn() && resource.data.customerId == request.auth.uid && request.resource.data.customerId == request.auth.uid
+        && rid == request.auth.uid + '_' + request.resource.data.targetType + '_' + request.resource.data.targetId
+        && request.resource.data.rating is int && request.resource.data.rating >= 1 && request.resource.data.rating <= 5
+        && request.resource.data.text is string && request.resource.data.text.size() <= 600
+        && request.resource.data.status == 'published');
+      allow delete: if admin() || (signedIn() && resource.data.customerId == request.auth.uid);
     }
     match /posts/{id}{
       allow read: if resource.data.status == 'published' || admin() || (signedIn() && resource.data.authorId == request.auth.uid);
