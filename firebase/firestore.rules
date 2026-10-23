@@ -5,25 +5,27 @@ service cloud.firestore {
     function isAdminDoc(){return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';}
     function admin(){return signedIn() && (request.auth.token.admin == true || isAdminDoc());}
     function me(uid){return signedIn() && request.auth.uid == uid;}
+    function notBlocked(){return !(exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('blocked', false) == true);}
     match /users/{uid}{
       allow create: if me(uid) && request.resource.data.role in ['customer','seller'];
       allow read: if me(uid) || admin();
-      allow update: if admin() || (me(uid) && request.resource.data.role == resource.data.role);
+      allow update: if admin() || (me(uid) && request.resource.data.role == resource.data.role && request.resource.data.get('blocked', false) == resource.data.get('blocked', false));
       allow delete: if admin();
     }
     match /sellerProfiles/{uid}{allow read: if signedIn(); allow create,update: if me(uid) || admin(); allow delete: if admin();}
     match /businesses/{id}{
       allow read: if resource.data.status == 'published' || admin() || (signedIn() && resource.data.ownerId == request.auth.uid);
-      allow create: if signedIn() && request.resource.data.ownerId == request.auth.uid;
-      allow update,delete: if admin() || (signedIn() && resource.data.ownerId == request.auth.uid);
+      allow create: if signedIn() && request.resource.data.ownerId == request.auth.uid && !('verified' in request.resource.data);
+      allow update: if admin() || (signedIn() && resource.data.ownerId == request.auth.uid && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['verified']));
+      allow delete: if admin() || (signedIn() && resource.data.ownerId == request.auth.uid);
     }
     match /products/{id}{
       allow read: if resource.data.status == 'published' || admin() || (signedIn() && resource.data.sellerId == request.auth.uid);
-      allow create: if signedIn() && request.resource.data.sellerId == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.sellerId == request.auth.uid && notBlocked();
       allow update,delete: if admin() || (signedIn() && resource.data.sellerId == request.auth.uid);
     }
     match /orders/{id}{
-      allow create: if signedIn() && request.resource.data.customerId == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.customerId == request.auth.uid && notBlocked();
       allow read: if admin() || (signedIn() && (resource.data.customerId == request.auth.uid || resource.data.sellerIds.hasAny([request.auth.uid])));
       allow update: if signedIn() && (
         admin()
@@ -36,7 +38,7 @@ service cloud.firestore {
     }
     match /stories/{id}{
       allow read: if resource.data.status == 'published' || admin() || (signedIn() && resource.data.authorId == request.auth.uid);
-      allow create: if signedIn() && request.resource.data.authorId == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.authorId == request.auth.uid && notBlocked();
       allow update,delete: if admin() || (signedIn() && resource.data.authorId == request.auth.uid);
     }
     match /reviews/{rid}{
@@ -46,7 +48,7 @@ service cloud.firestore {
         && request.resource.data.targetType in ['product','business']
         && request.resource.data.rating is int && request.resource.data.rating >= 1 && request.resource.data.rating <= 5
         && request.resource.data.text is string && request.resource.data.text.size() <= 600
-        && request.resource.data.status == 'published';
+        && request.resource.data.status == 'published' && notBlocked();
       allow update: if admin() || (signedIn() && resource.data.customerId == request.auth.uid && request.resource.data.customerId == request.auth.uid
         && rid == request.auth.uid + '_' + request.resource.data.targetType + '_' + request.resource.data.targetId
         && request.resource.data.rating is int && request.resource.data.rating >= 1 && request.resource.data.rating <= 5
@@ -54,15 +56,20 @@ service cloud.firestore {
         && request.resource.data.status == 'published');
       allow delete: if admin() || (signedIn() && resource.data.customerId == request.auth.uid);
     }
+    match /wishlist/{wid}{
+      allow read: if signedIn() && resource.data.userId == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid && wid == request.auth.uid + '_' + request.resource.data.productId;
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
     match /posts/{id}{
       allow read: if resource.data.status == 'published' || admin() || (signedIn() && resource.data.authorId == request.auth.uid);
-      allow create: if signedIn() && request.resource.data.authorId == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.authorId == request.auth.uid && notBlocked();
       allow update,delete: if admin() || (signedIn() && resource.data.authorId == request.auth.uid);
     }
     match /posts/{id}/likes/{uid}{allow read: if true; allow create,delete: if signedIn() && request.auth.uid == uid;}
     match /posts/{id}/comments/{cid}{
       allow read: if true;
-      allow create: if signedIn() && request.resource.data.authorId == request.auth.uid && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500;
+      allow create: if signedIn() && request.resource.data.authorId == request.auth.uid && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500 && notBlocked();
       allow delete: if admin() || (signedIn() && resource.data.authorId == request.auth.uid);
     }
     match /conversations/{cid}{
@@ -72,7 +79,7 @@ service cloud.firestore {
     }
     match /conversations/{cid}/messages/{mid}{
       allow read: if signedIn() && (request.auth.uid in get(/databases/$(database)/documents/conversations/$(cid)).data.participantIds || admin());
-      allow create: if signedIn() && request.resource.data.senderId == request.auth.uid && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 1000 && request.auth.uid in get(/databases/$(database)/documents/conversations/$(cid)).data.participantIds;
+      allow create: if signedIn() && request.resource.data.senderId == request.auth.uid && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 1000 && request.auth.uid in get(/databases/$(database)/documents/conversations/$(cid)).data.participantIds && notBlocked();
       allow update: if signedIn() && (
         (resource.data.senderId == request.auth.uid
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['text','edited','editedAt'])
@@ -116,6 +123,20 @@ service cloud.firestore {
       allow update, delete: if signedIn() && (request.auth.uid == pid || get(/databases/$(database)/documents/liveSessions/$(id)).data.hostId == request.auth.uid);
     }
     match /liveSessions/{id}/chat/{mid}{allow read,create: if signedIn();}
-    match /notifications/{id}{allow read: if signedIn() && resource.data.userId == request.auth.uid || admin();allow create: if admin();}
+    match /notifications/{nid}{
+      allow read: if signedIn() && resource.data.userId == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.fromId == request.auth.uid
+        && request.resource.data.userId is string && request.resource.data.userId != request.auth.uid
+        && request.resource.data.text is string && request.resource.data.text.size() <= 200
+        && request.resource.data.type in ['message','order','offer','review','follow','product']
+        && request.resource.data.read == false;
+      allow update: if signedIn() && resource.data.userId == request.auth.uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+    match /follows/{fid}{
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid && fid == request.auth.uid + '_' + request.resource.data.businessId;
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
   }
 }
