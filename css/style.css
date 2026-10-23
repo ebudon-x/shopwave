@@ -248,3 +248,17 @@ h1{font-size:clamp(32px,9.5vw,44px)}h2{font-size:clamp(24px,7vw,32px)}
 .link-btn{border:0;background:transparent;color:#8a1c1c;font:inherit;font-size:13px;cursor:pointer;padding:8px 0 0;text-decoration:underline}
 .star-pick{display:flex;gap:4px;margin:6px 0 12px}.star-pick button{border:0;background:transparent;font-size:34px;line-height:1;color:#d4dbd6;cursor:pointer;padding:2px 4px}.star-pick button.on{color:#e0b44c}.star-pick button:hover{transform:scale(1.12)}
 #revForm textarea{width:100%}
+
+/* ===== Section 4: saved items ===== */
+.save-btn{white-space:nowrap}
+
+/* ===== Section 5: notifications & following ===== */
+.nav-bell.has-new{color:#b4231f;font-weight:800}
+.notif-list{display:grid;gap:10px;margin-top:20px}.notif{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;color:inherit;text-decoration:none}.notif.unread{background:#f1f8f3;border-color:#bfdcc8}.notif:hover{border-color:var(--brand)}
+.notif-ico{font-size:22px;line-height:1.2}.notif-text{display:grid;gap:4px;line-height:1.45;overflow-wrap:anywhere}.notif-text small{color:#8a968f}
+.follow-list{display:flex;gap:10px;flex-wrap:wrap}.follow-chip{display:inline-block;background:#eef3ef;color:var(--brand);border-radius:999px;padding:9px 16px;font-weight:700}.follow-chip:hover{background:#dfeee4}
+
+/* ===== Section 6: admin tools ===== */
+.v-badge{display:inline-block;background:#e0b44c;color:#14231b;border-radius:999px;font-size:11px;font-weight:800;padding:2px 9px;vertical-align:middle;letter-spacing:.02em}
+.au-search{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:999px;font:inherit;font-size:16px;margin-bottom:10px}
+.au-row b{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
