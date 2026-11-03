@@ -274,3 +274,13 @@ h1{font-size:clamp(32px,9.5vw,44px)}h2{font-size:clamp(24px,7vw,32px)}
 .tabs button{margin:0}
 .metric{padding:20px 24px}
 @media(max-width:650px){.metrics{gap:12px;margin-bottom:22px}.tabs{gap:10px;margin-bottom:16px}}
+
+/* ===== Social feed: single centered column, no boxes ===== */
+.feed-wrap{max-width:680px;margin:0 auto}
+.feed-wrap .composer{margin-bottom:8px}
+.feed{display:block;margin-top:10px}
+.feed .post{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:22px 0;margin:0}
+.feed .post:last-child{border-bottom:0}
+.feed .post-img{max-height:520px;border-radius:14px}
+.feed .post-actions{border-top:0;padding-top:4px}
+.feed .empty-state{margin-top:10px}
