@@ -284,3 +284,16 @@ h1{font-size:clamp(32px,9.5vw,44px)}h2{font-size:clamp(24px,7vw,32px)}
 .feed .post-img{width:100%;height:auto;max-height:85vh;object-fit:contain;border-radius:14px;background:#f1f5f2}
 .feed .post-actions{border-top:0;padding-top:4px}
 .feed .empty-state{margin-top:10px}
+
+/* ===== Product card actions: tidy 2-row layout ===== */
+.card .inline-actions:has([data-add-product]){display:grid;grid-template-columns:1fr auto auto;gap:8px;margin-top:14px}
+.card .inline-actions:has([data-add-product]) .btn{margin:0;width:auto;min-height:44px;padding:0 14px;font-size:14px;border-radius:12px}
+.card .inline-actions:has([data-add-product]) [data-add-product]{grid-column:1/-1;width:100%;font-size:15px}
+.card .inline-actions:has([data-add-product]) > a.btn{width:100%;background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.card .inline-actions:has([data-add-product]) > a.btn:hover{border-color:var(--brand);color:var(--brand)}
+.card .inline-actions:has([data-add-product]) .like-btn,.card .inline-actions:has([data-add-product]) .save-btn{background:#f2f6f3;color:#4a5a51;min-width:44px;gap:6px}
+.card .inline-actions:has([data-add-product]) .like-btn:hover,.card .inline-actions:has([data-add-product]) .save-btn:hover{background:#e6eee8}
+.card .inline-actions:has([data-add-product]) .like-btn .ic,.card .inline-actions:has([data-add-product]) .save-btn .ic{flex-shrink:0}
+.card .inline-actions:has([data-add-product]) .like-btn:has(svg[fill="currentColor"]){color:#d6336c;background:#fde8ec}
+.card .inline-actions:has([data-add-product]) .save-btn:has(svg[fill="currentColor"]){color:var(--brand);background:#e1f1e6}
+.card .inline-actions:has([data-add-product]) .btn[disabled]{opacity:.5;cursor:not-allowed}
